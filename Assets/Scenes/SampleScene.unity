@@ -311,6 +311,7 @@ MonoBehaviour:
   scrollSpeed: 1e-18
   material: {fileID: 0}
   resultText: {fileID: 0}
+  scrollDeceleration: 5
 --- !u!1 &669818703
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +347,7 @@ MonoBehaviour:
   scrollSpeed: 0.1
   material: {fileID: 0}
   resultText: {fileID: 288252092}
+  scrollDeceleration: 5
 --- !u!64 &669818705
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -419,7 +421,7 @@ Transform:
   m_GameObject: {fileID: 669818703}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
   m_LocalPosition: {x: 1.7, y: 23.4, z: 124.4}
-  m_LocalScale: {x: 4.132044, y: 0.99116, z: 33.928177}
+  m_LocalScale: {x: 4.132044, y: 0.99116, z: 33}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

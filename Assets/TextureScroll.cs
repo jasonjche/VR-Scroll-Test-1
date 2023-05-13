@@ -3,29 +3,48 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class TextureScroll: MonoBehaviour {
+public class TextureScroll : MonoBehaviour {
     [SerializeField] private float scrollSpeed = 1e-18f;
     [SerializeField] private Material material;
     [SerializeField] private TMP_Text resultText;
-    private float previousScrollSpeed;
+    [SerializeField] private float scrollDeceleration = 5f;
+    private float previousScrollSpeed;  
+    private float targetScrollSpeed;
     private float startTime;
     private float timeTaken;
-    private const float MatchLowerBound = 7.76f; 
-    private const float MatchUpperBound = 7.84f;
-    private const float NegativeMatchLowerBound = -2.24f;
-    private const float NegativeMatchUpperBound = -2.16f;
+    private float inactivityTimer;
+    private const float inactivityThreshold = 0.5f;
+    private const float MatchLowerBound = 2.3f;
+    private const float MatchUpperBound = 2.5f;
+    private const float NegativeMatchLowerBound = -7.7f;
+    private const float NegativeMatchUpperBound = -7.5f;
 
     private void Start() {
-        previousScrollSpeed = 4.5f;
-        material = GetComponent <Renderer>().sharedMaterial;
+        previousScrollSpeed = 9f;
+        targetScrollSpeed = previousScrollSpeed;
+        material = GetComponent<Renderer>().sharedMaterial;
         material.SetFloat("_Scrolling_Speed", previousScrollSpeed);
         startTime = Time.time;
+        inactivityTimer = 0f;
     }
 
     private void Update() {
         Debug.Log(previousScrollSpeed);
         previousScrollSpeed = material.GetFloat("_Scrolling_Speed");
-        material.SetFloat("_Scrolling_Speed", previousScrollSpeed + (scrollSpeed * Input.mouseScrollDelta.y));
+
+        if (Input.mouseScrollDelta.y != 0) {
+            targetScrollSpeed = previousScrollSpeed + (scrollSpeed * Input.mouseScrollDelta.y);
+            inactivityTimer = 0f;
+        } else {
+            inactivityTimer += Time.deltaTime;
+        }
+
+        if (inactivityTimer >= inactivityThreshold) {
+            previousScrollSpeed = Mathf.Lerp(previousScrollSpeed, targetScrollSpeed, Time.deltaTime * scrollDeceleration);
+        } else {
+            previousScrollSpeed = targetScrollSpeed;
+        }
+        material.SetFloat("_Scrolling_Speed", previousScrollSpeed);
 
         if (IsScrollInRange(previousScrollSpeed)) {
             timeTaken = Time.time - startTime;
