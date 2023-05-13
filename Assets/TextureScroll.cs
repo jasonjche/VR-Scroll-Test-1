@@ -10,10 +10,10 @@ public class TextureScroll: MonoBehaviour {
     private float previousScrollSpeed;
     private float startTime;
     private float timeTaken;
-    private const float MatchLowerBound = 6.78f; 
-    private const float MatchUpperBound = 6.82f;
-    private const float NegativeMatchLowerBound = -3.22f;
-    private const float NegativeMatchUpperBound = -3.18f;
+    private const float MatchLowerBound = 7.76f; 
+    private const float MatchUpperBound = 7.84f;
+    private const float NegativeMatchLowerBound = -2.24f;
+    private const float NegativeMatchUpperBound = -2.16f;
 
     private void Start() {
         previousScrollSpeed = 4.5f;
@@ -23,6 +23,7 @@ public class TextureScroll: MonoBehaviour {
     }
 
     private void Update() {
+        Debug.Log(previousScrollSpeed);
         previousScrollSpeed = material.GetFloat("_Scrolling_Speed");
         material.SetFloat("_Scrolling_Speed", previousScrollSpeed + (scrollSpeed * Input.mouseScrollDelta.y));
 
